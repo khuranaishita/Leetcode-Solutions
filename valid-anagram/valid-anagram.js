@@ -4,29 +4,31 @@
  * @return {boolean}
  */
 var isAnagram = function(s, t) {
-    var lens = s.length,
-        lent = t.length;
-    if(lens !== lent) return false;
-    if(typeof s !== 'string' || typeof t !== 'string') 
-        return false;
-    if(lens === 0 && lent === 0) 
-        return true;
-    
-    var charmap = {};
-    for(let i=0; i<lens; i++){
-        charmap[s[i]] = charmap[s[i]] ? charmap[s[i]]+1: 1; 
-    }
-    for(let j=0; j<lent; j++){
-        if(charmap[t[j]]) 
-            charmap[t[j]]--;
-        else return false;
-    }
-    
-    var sum = Object.values(charmap).reduce(function(accumulator, element){
-        return accumulator + element;
-    });
-    
-    if(sum === 0) return true;
+   if (s.length !== t.length) {
     return false;
+  }  
 
+  let letterCount = {};
+
+  for (let letter of s) {
+    if (letterCount[letter]) {
+      letterCount[letter]++;
+    } else {
+      letterCount[letter] = 1;
+    }
+  }
+
+  for (let letter of t) {
+    if (letterCount[letter] === undefined) {
+      return false;
+    }
+
+    if (letterCount[letter] < 1) {
+      return false;
+    }
+
+    letterCount[letter]--;
+  }
+
+  return true;
 };
